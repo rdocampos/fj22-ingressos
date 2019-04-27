@@ -1,1 +1,3 @@
-Descrição sobre você
+# Venda de ingressos
+
+Desenvolvido por Rodolfo Campos
