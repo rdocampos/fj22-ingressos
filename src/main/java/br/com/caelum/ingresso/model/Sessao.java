@@ -24,7 +24,7 @@ public class Sessao {
 	
 
 	public BigDecimal getPreco() {
-		return preco.setScale(2, RoundingMode.UP);
+		return preco.setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public void setPreco(BigDecimal preco) {
