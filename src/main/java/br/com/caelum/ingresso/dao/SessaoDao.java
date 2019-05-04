@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.caelum.ingresso.model.Filme;
 import br.com.caelum.ingresso.model.Sala;
 import br.com.caelum.ingresso.model.Sessao;
 
@@ -26,6 +27,13 @@ public class SessaoDao {
 						Sessao.class).setParameter("sala", sala)
 				.getResultList();
 	}
-	
-	
+
+	public Sessao findOne(Integer id) {
+		return manager.find(Sessao.class, id);
+	}
+
+	public void delete(Integer id) {
+		manager.remove(findOne(id));
+	}
+
 }
