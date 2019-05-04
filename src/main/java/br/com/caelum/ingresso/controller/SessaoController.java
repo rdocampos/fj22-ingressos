@@ -1,6 +1,7 @@
 package br.com.caelum.ingresso.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.fabric.xmlrpc.Client;
+
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.model.ImagemCapa;
 import br.com.caelum.ingresso.model.Sessao;
 import br.com.caelum.ingresso.model.form.SessaoForm;
+import br.com.caelum.ingresso.rest.OmdbCliente;
 import br.com.caelum.ingresso.validacao.GerenciadorDeSessao;
 
 @Controller
@@ -32,6 +37,8 @@ public class SessaoController {
 	private FilmeDao filmeDao;
 	@Autowired
 	private SessaoDao sessaoDao;
+	@Autowired
+	private OmdbCliente client;
 
 	@GetMapping("/admin/sessao")
 	public ModelAndView form(@RequestParam("salaId") Integer salaId,
@@ -70,12 +77,26 @@ public class SessaoController {
 		return form(form.getSalaId(), form);
 
 	}
-	
-    @DeleteMapping("/admin/sessao/{id}")
-    @ResponseBody
-    @Transactional
-    public void delete(@PathVariable("id") Integer id){
-        sessaoDao.delete(id);
-    }
+
+	@DeleteMapping("/admin/sessao/{id}")
+	@ResponseBody
+	@Transactional
+	public void delete(@PathVariable("id") Integer id) {
+		sessaoDao.delete(id);
+	}
+
+	@GetMapping("/sessao/{id}/lugares")
+	public ModelAndView lugaresNaSessao(@PathVariable("id") Integer id) {
+		ModelAndView modelAndView = new ModelAndView("sessao/lugares");
+
+		Sessao sessao = sessaoDao.findOne(id);
+		Optional<ImagemCapa> imagemCapa = client.request(sessao.getFilme(),
+				ImagemCapa.class);
+
+		modelAndView.addObject("sessao", sessao);
+		modelAndView.addObject("imagemCapa",
+				imagemCapa.orElse(new ImagemCapa()));
+		return modelAndView;
+	}
 
 }

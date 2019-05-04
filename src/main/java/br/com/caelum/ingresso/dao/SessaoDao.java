@@ -27,6 +27,13 @@ public class SessaoDao {
 						Sessao.class).setParameter("sala", sala)
 				.getResultList();
 	}
+	
+	public List<Sessao> buscaSessoesDoDilme(Filme filme) {
+		return manager
+				.createQuery("select s from Sessao s where s.filme = :filme",
+						Sessao.class).setParameter("filme", filme)
+				.getResultList();
+	}
 
 	public Sessao findOne(Integer id) {
 		return manager.find(Sessao.class, id);
