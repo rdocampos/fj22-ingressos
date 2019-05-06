@@ -28,7 +28,11 @@ public class Sala {
 	private BigDecimal preco;
 
 	public BigDecimal getPreco() {
-		return preco.setScale(2, RoundingMode.HALF_UP);
+		if (preco != null) {
+			return preco.setScale(2, RoundingMode.HALF_UP);
+		}else{
+			return new BigDecimal("0.0");
+		}
 	}
 
 	public void setPreco(BigDecimal preco) {
