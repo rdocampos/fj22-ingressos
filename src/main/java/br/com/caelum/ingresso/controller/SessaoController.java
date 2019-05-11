@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import br.com.caelum.ingresso.model.TipoDeIngresso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,7 +96,10 @@ public class SessaoController {
 		modelAndView.addObject("sessao", sessao);
 		modelAndView.addObject("imagemCapa",
 				imagemCapa.orElse(new ImagemCapa()));
+		modelAndView.addObject("tiposDeIngressos", TipoDeIngresso.values());
 		return modelAndView;
 	}
+
+
 
 }

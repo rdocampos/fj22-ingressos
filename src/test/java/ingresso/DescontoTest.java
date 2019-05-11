@@ -1,20 +1,13 @@
 package ingresso;
 
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalTime;
-
+import br.com.caelum.ingresso.model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.caelum.ingresso.model.Filme;
-import br.com.caelum.ingresso.model.Ingresso;
-import br.com.caelum.ingresso.model.Sala;
-import br.com.caelum.ingresso.model.Sessao;
-import br.com.caelum.ingresso.model.descontos.DescontoParaBancos;
-import br.com.caelum.ingresso.model.descontos.DescontoParaEstudantes;
-import br.com.caelum.ingresso.model.descontos.SemDesconto;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalTime;
 
 public class DescontoTest {
 
@@ -33,7 +26,7 @@ public class DescontoTest {
 	@Test
 	public void nao_deve_conceder_desconto_para_ingresso_normal() {
 
-		Ingresso Ingresso = new Ingresso(sessao, new SemDesconto());
+		Ingresso Ingresso = new Ingresso(sessao, TipoDeIngresso.INTEIRO, new Lugar());
 
 		BigDecimal precoEsperado = new BigDecimal("32.50");
 
@@ -43,7 +36,7 @@ public class DescontoTest {
 	@Test
 	public void deve_conceder_desconto_de_30_por_cento_para_ingressos_de_clientes_de_banco() {
 
-		Ingresso Ingresso = new Ingresso(sessao, new DescontoParaBancos());
+		Ingresso Ingresso = new Ingresso(sessao, TipoDeIngresso.BANCO, new Lugar());
 
 		BigDecimal precoEsperado = new BigDecimal("22.75");
 
@@ -54,7 +47,7 @@ public class DescontoTest {
 	@Test
 	public void deve_conceder_desconto_de_50_por_cento_para_ingressos_de_estudante() {
 
-		Ingresso Ingresso = new Ingresso(sessao, new DescontoParaEstudantes());
+		Ingresso Ingresso = new Ingresso(sessao, TipoDeIngresso.ESTUDANTE, new Lugar());
 
 		BigDecimal precoEsperado = new BigDecimal("16.25");
 
